@@ -2,11 +2,43 @@
  *
  * \section intro_sec Introduction
  *
- * This is the introduction.
+ * This program moves and renames some mesh files from Graphical Herbalism (with which I have no connection except my deepest gratitude for authors)
+  mod for easy use in openmw modified to natively (in source code) support 
+ some of the features of the mod. If you use that version of openmw it is sufficient to provide Flora mesh .nif file with _P suffix to see this mesh
+ used for empty (picked) plants.
  *
- * \section install_sec Installation
- *
- * \subsection step1 Step 1: Opening the box
- *
- * etc...
+ 
+ \section requirements Requirements
+ As far as I know it requires: g++, make, and boost to compile (make optional, but makes thing easier, no pun intended)
+ 
+ To work it obviously requires Graphical herbalism mod properly installed.
+ 
+ To see it affect your game you have to have openmw compiled with graphical herbalism branch (see github, user Gnomer)
+ * \section install_sec Compilation
+ 
+ Just use make. Exec file appears in build directory
+ 
+ Doxygen for generating documentation
+
+ * \section workings What it does
+ Program needs properly installed graphical herbalism mod (meshes and textures) to work. 
+ It moves plant meshes from gherb folder and puts them along unpicked meshes from original game with names 
+ differing with _P suffix for picked (graphical herbalism supplied) version. It additionaly renames picked version,
+ usually adding FLORA_ prefix when needed. For some meshes it also looks for graphical herbalism versions with _U suffix (unpicked supposedly),
+ it then replaces original file with that file, adding _old suffix to original file and renaming _U version file to 
+ original file name. I suppose it is unpicked mesh version for which mod author thought it suitable to also change mesh.
+ 
+No raw materials patches have been touched. No empty files are created for plants with no 'picked - aka empty' mesh version.
+
+Uninstall option is also provided to clean all copied _P files and to restore all unpicked _old meshes when applicable.
+ 
+Raport is generated for files, which have been replaced, for files with flora prefix for which no picked version have been found,
+and for picked version files for which no original flora files have been found.
+
+\section code_inner_workings How it does it
+Technical description of the alghoritm 
+
+\section contact Contact
+? Github I guess, better You don't find me in case something is botched with this code for which I give no quarantee whatsoever, even no quarantee
+for usefullness for any purpose or whatnot. You may use this code as you please, except when you gain something significant using it, then I want some.
  */

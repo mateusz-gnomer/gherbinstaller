@@ -1,0 +1,9 @@
+#ignore documentation
+#ignore all exe files
+#ignore all bin files
+
+documentation/
+bin/
+*.exe
+*.o
+*~

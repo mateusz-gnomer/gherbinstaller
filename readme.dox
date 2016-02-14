@@ -13,7 +13,7 @@
  
  To work it obviously requires Graphical herbalism mod properly installed.
  
- To see it affect your game you have to have openmw compiled with graphical herbalism branch (see github, user Gnomer)
+ To see it affect your game you have to have openmw compiled with graphical herbalism branch (see github, user mateusz-gnomer)
  * \section install_sec Compilation
  
  Just use make. Exec file appears in build directory

@@ -3,11 +3,13 @@ SRC_DIR=src
 BIN_DIR=bin
 TEST_DIR=test
 
-
 DIR_SEP=/
-TEST_FILE=$(TEST_DIR)$(DIR_SEP)correct.txt
-RESULT_FILE=$(TEST_DIR)$(DIR_SEP)result.txt
+TEST_FILE=$(TEST_DIR)$(DIR_SEP)target_dir_tree_and_content
+TEST_SETUP_SCRIPT=$(TEST_DIR)$(DIR_SEP)create_test_data_dir.sh test/
+DIR_SCAN_SCRIPT=$(TEST_DIR)$(DIR_SEP)scan_data.sh $(TEST_DIR)$(DIR_SEP)data
+RESULT_FILE=$(TEST_DIR)$(DIR_SEP)result
 MAIN_FILE=$(BIN_DIR)$(DIR_SEP)ghinstall
+MAIN_ARGS=$(TEST_DIR)$(DIR_SEP)data $(TEST_DIR)$(DIR_SEP)empty.nif
 
 SOURCE_FILES = ghinstall.cpp
 SOURCES = $(patsubst %,$(SRC_DIR)$(DIR_SEP)%,$(SOURCE_FILES))
@@ -18,9 +20,14 @@ OBJECTS = $(patsubst %,$(BIN_DIR)$(DIR_SEP)%,$(OBJECT_FILES))
 all: test
 
 test: $(MAIN_FILE)
-	$(BIN_DIR)$(DIR_SEP)ghinstall > $(RESULT_FILE)
-	diff $(TEST_FILE) $(RESULT_FILE)
+	$(TEST_SETUP_SCRIPT)
+	$(MAIN_FILE) $(MAIN_ARGS)
+	$(DIR_SCAN_SCRIPT) | sort > $(RESULT_FILE)
+	diff -i -b $(TEST_FILE) $(RESULT_FILE)
 	rm -f $(RESULT_FILE)
+
+#ghinstall is supplied with morrowind data dir and empty nif file
+#diff -i ignore case -b ignore whitespaces
 
 $(MAIN_FILE): $(OBJECTS)
 	$(CC) $(LFLAGS) $^ -o $@

@@ -1,0 +1,20 @@
+./data/Meshes/FLORA_no_picked.nif
+./data/Meshes/FLORA_no_picked_P.nif empty_nif
+./data/Meshes/GHerb/b/BM_holly_01_P.nif
+./data/Meshes/GHerb/Black_Anther_01_P.nif picked_plant
+./data/Meshes/GHerb/Black_Anther_02_P.nif
+./data/Meshes/GHerb/m/no_unpicked_P.nif
+./data/Meshes/GHerb/mock_U.nif unpicked_gh
+./data/Meshes/GHerb/t/plant_03_P.NIF
+./data/Meshes/o/Flora_Black_Anther_01.nif
+./data/Meshes/o/Flora_Black_Anther_01_P.nif picked_plant
+./data/Meshes/o/Flora_Black_Anther_02.nif
+./data/Meshes/o/Flora_Black_Anther_02_P.nif
+./data/Meshes/o/Flora_BM_holly_01.nif
+./data/Meshes/o/Flora_BM_holly_01_P.nif
+./data/Meshes/o/Flora_mock.nif unpicked_gh
+./data/Meshes/o/Flora_mock_old.nif original
+./data/Meshes/o/Flora_mock_P.nif empty_nif
+./data/Meshes/o/flora_plant_03.NIF
+./data/Meshes/o/Flora_plant_03_P.nif
+./data/Meshes/uninteresting_file.nif

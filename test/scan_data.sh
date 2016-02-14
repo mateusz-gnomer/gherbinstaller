@@ -2,9 +2,11 @@
 
 #The aim for this script is to create text file with list of files from data dir
 # it writes the list to a file denoted by supplied cmd argument
-rm -f $1
-touch $1
-for x in `find ./data/* -type f`
+# it also writes what is contained in files
+
+for x in `find $1 -type f`
 do
-echo "$x" >> $1
+variable=`cat $x`
+echo "$x $variable"
+
 done

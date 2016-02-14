@@ -1,9 +1,0 @@
-#!/bin/bash
-
-#The aim for this script is to create empty files in place of original files
-for x in `find ./data/* -type f`
-do
-rm $x
-touch $x
-echo "processing $x"
-done

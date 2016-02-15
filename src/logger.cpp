@@ -1,5 +1,9 @@
 #include <logger.h>
 
-void Logger::printLog(){
+void Logger::addToLog(std::string txt){
+	this->logText = this->logText + txt;
+}
 
+std::string Logger::returnLog(){
+	return this->logText;
 }

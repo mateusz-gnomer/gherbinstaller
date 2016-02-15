@@ -11,7 +11,7 @@ RESULT_FILE=$(TEST_DIR)$(DIR_SEP)result
 MAIN_FILE=$(BIN_DIR)$(DIR_SEP)ghinstall
 MAIN_ARGS=$(TEST_DIR)$(DIR_SEP)data $(TEST_DIR)$(DIR_SEP)empty.nif
 
-SOURCE_FILES = ghinstall.cpp
+SOURCE_FILES = ghinstall.cpp logger.cpp
 SOURCES = $(patsubst %,$(SRC_DIR)$(DIR_SEP)%,$(SOURCE_FILES))
 
 OBJECT_FILES = $(patsubst %.cpp,%.o,$(SOURCE_FILES))
@@ -29,11 +29,24 @@ test: $(MAIN_FILE)
 #ghinstall is supplied with morrowind data dir and empty nif file
 #diff -i ignore case -b ignore whitespaces
 
+loggerTest: $(BIN_DIR)$(DIR_SEP)loggerTest
+	$(BIN_DIR)$(DIR_SEP)loggerTest
+	
+$(BIN_DIR)$(DIR_SEP)loggerTest: $(BIN_DIR)$(DIR_SEP)loggerTest.o $(BIN_DIR)$(DIR_SEP)logger.o
+	$(CC) $(LFLAGS) $^ -o $@
+	
+$(BIN_DIR)$(DIR_SEP)loggerTest.o: $(TEST_DIR)$(DIR_SEP)loggerTest.cpp
+	$(CC) $(CFLAGS) -I.$(DIR_SEP)$(SRC_DIR)$(DIR_SEP) -c $< -o $@
+	
+$(BIN_DIR)$(DIR_SEP)logger.o: $(SRC_DIR)$(DIR_SEP)logger.cpp
+	$(CC) $(CFLAGS) -I.$(DIR_SEP)$(SRC_DIR)$(DIR_SEP) -c $< -o $@
+
 $(MAIN_FILE): $(OBJECTS)
 	$(CC) $(LFLAGS) $^ -o $@
 
-$(OBJECTS): $(SOURCES)
-	$(CC) $(CFLAGS) -c $< -o $@
+#$(OBJECTS): $(SOURCES)
+#	$(CC) $(CFLAGS) -c $< -o $@
+
 
 clean: 
 	rm -r -f bin/*.*

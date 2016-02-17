@@ -3,6 +3,9 @@ SRC_DIR=src
 BIN_DIR=bin
 TEST_DIR=test
 
+BOOST_LIBS=-lboost_system -lboost_date_time -lboost_thread -lboost_unit_test_framework
+
+
 DIR_SEP=/
 TEST_FILE=$(TEST_DIR)$(DIR_SEP)target_dir_tree_and_content
 TEST_SETUP_SCRIPT=$(TEST_DIR)$(DIR_SEP)create_test_data_dir.sh test/
@@ -33,7 +36,7 @@ loggerTest: $(BIN_DIR)$(DIR_SEP)loggerTest
 	$(BIN_DIR)$(DIR_SEP)loggerTest
 	
 $(BIN_DIR)$(DIR_SEP)loggerTest: $(BIN_DIR)$(DIR_SEP)loggerTest.o $(BIN_DIR)$(DIR_SEP)logger.o
-	$(CC) $(LFLAGS) $^ -o $@
+	$(CC) $(LFLAGS) $^ -o $@ $(BOOST_LIBS)
 	
 $(BIN_DIR)$(DIR_SEP)loggerTest.o: $(TEST_DIR)$(DIR_SEP)loggerTest.cpp
 	$(CC) $(CFLAGS) -I.$(DIR_SEP)$(SRC_DIR)$(DIR_SEP) -c $< -o $@

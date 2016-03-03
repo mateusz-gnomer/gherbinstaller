@@ -3,8 +3,9 @@ SRC_DIR=src
 BIN_DIR=bin
 TEST_DIR=test
 
-BOOST_LIBS=-lboost_system -lboost_date_time -lboost_thread -lboost_unit_test_framework
+BOOST_LIBS=-lboost_system -lboost_date_time -lboost_thread -lboost_unit_test_framework -lboost_filesystem
 
+CFLAGS=-std=c++11
 
 DIR_SEP=/
 TEST_FILE=$(TEST_DIR)$(DIR_SEP)target_dir_tree_and_content
@@ -32,6 +33,22 @@ test: $(MAIN_FILE)
 #ghinstall is supplied with morrowind data dir and empty nif file
 #diff -i ignore case -b ignore whitespaces
 
+scannerTest: $(BIN_DIR)$(DIR_SEP)scannerTest
+	$(TEST_SETUP_SCRIPT)
+	touch $(TEST_DIR)$(DIR_SEP)some_file
+	$(BIN_DIR)$(DIR_SEP)scannerTest
+	rm -f $(TEST_DIR)$(DIR_SEP)some_file
+	rm -f -r $(TEST_DIR)$(DIR_SEP)data
+	
+$(BIN_DIR)$(DIR_SEP)scannerTest: $(BIN_DIR)$(DIR_SEP)scannerTest.o $(BIN_DIR)$(DIR_SEP)dirScanner.o
+	$(CC) $(LFLAGS) $^ -o $@ $(BOOST_LIBS)
+	
+$(BIN_DIR)$(DIR_SEP)scannerTest.o: $(TEST_DIR)$(DIR_SEP)scannerTest.cpp
+	$(CC) $(CFLAGS) -I.$(DIR_SEP)$(SRC_DIR)$(DIR_SEP) -c $< -o $@
+	
+$(BIN_DIR)$(DIR_SEP)dirScanner.o: $(SRC_DIR)$(DIR_SEP)dirScanner.cpp
+	$(CC) $(CFLAGS) -I.$(DIR_SEP)$(SRC_DIR)$(DIR_SEP) -c $< -o $@
+
 loggerTest: $(BIN_DIR)$(DIR_SEP)loggerTest
 	$(BIN_DIR)$(DIR_SEP)loggerTest
 	
@@ -52,6 +69,6 @@ $(MAIN_FILE): $(OBJECTS)
 
 
 clean: 
-	rm -r -f bin/*.*
+	rm -r -f bin/*
 
 .PHONY: all test clean

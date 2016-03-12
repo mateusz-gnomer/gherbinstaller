@@ -1,6 +1,7 @@
 #include "dirScanner.h"
 #include <iostream>
 
+
 bool DirScanner::scan(std::string dirToScanName){
 	boost::filesystem::path dirToScan(dirToScanName);
 
@@ -8,9 +9,7 @@ bool DirScanner::scan(std::string dirToScanName){
 		return false;
 	}
 
-	for (boost::filesystem::directory_entry& x : boost::filesystem::directory_iterator(dirToScanName)){
-		std::cout << x.path();
-	}
+	return innerScan(dirToScan);
 
 	return true;
 }
@@ -26,4 +25,21 @@ bool DirScanner::checkPath(boost::filesystem::path dirToScan){
     	return false;
     }
     return true;
+}
+
+bool DirScanner::innerScan(boost::filesystem::path dirToScan){
+	boost::filesystem::directory_iterator dirIter(dirToScan);
+	while(dirIter != boost::filesystem::directory_iterator()){
+		boost::filesystem::path currentPath = dirIter->path();
+		std::cout << currentPath.string() << std::endl;
+		if(checkPath(currentPath)){
+			innerScan(currentPath);
+		}
+
+		if(boost::iequals(currentPath.extension().string(),".nif")){
+			originalNifs[currentPath.stem().string()]=currentPath.string();
+		}
+		++dirIter;
+	}
+	return true;
 }

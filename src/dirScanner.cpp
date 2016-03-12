@@ -1,11 +1,15 @@
 #include "dirScanner.h"
 #include <iostream>
 
+std::map<std::string, std::string> DirScanner::getOriginalNifs(){
+	return this->originalNifs;
+}
 
-bool DirScanner::scan(std::string dirToScanName){
+bool DirScanner::scan(std::string dirToScanName)
+{
 	boost::filesystem::path dirToScan(dirToScanName);
 
-	if(!this->checkPath(dirToScan)){
+	if(!this->canBeScanned(dirToScan)){
 		return false;
 	}
 
@@ -13,11 +17,9 @@ bool DirScanner::scan(std::string dirToScanName){
 
 	return true;
 }
-std::map<std::string, std::string> DirScanner::getOriginalNifs(){
-	return this->originalNifs;
-}
 
-bool DirScanner::checkPath(boost::filesystem::path dirToScan){
+bool DirScanner::canBeScanned(boost::filesystem::path dirToScan)
+{
     if(!boost::filesystem::exists(dirToScan)){
     	return false;
     }
@@ -27,19 +29,47 @@ bool DirScanner::checkPath(boost::filesystem::path dirToScan){
     return true;
 }
 
-bool DirScanner::innerScan(boost::filesystem::path dirToScan){
+bool DirScanner::innerScan(boost::filesystem::path dirToScan)
+{
 	boost::filesystem::directory_iterator dirIter(dirToScan);
-	while(dirIter != boost::filesystem::directory_iterator()){
+
+	std::string fileNameStem = "";
+	std::string floraNifFileStem = "";
+	std::string filePath = "";
+	std::string ext = "";
+	std::string floraString = "flora_";
+	unsigned long int floraStringLength = floraString.length();
+
+	while(dirIter != boost::filesystem::directory_iterator())
+	{
 		boost::filesystem::path currentPath = dirIter->path();
 		std::cout << currentPath.string() << std::endl;
-		if(checkPath(currentPath)){
+		if(canBeScanned(currentPath)){
 			innerScan(currentPath);
 		}
-
-		if(boost::iequals(currentPath.extension().string(),".nif")){
-			originalNifs[currentPath.stem().string()]=currentPath.string();
-		}
+		ext = currentPath.extension().string();
+		fileNameStem = currentPath.stem().string();
+		filePath = currentPath.string();
 		++dirIter;
+
+		if(!boost::iequals(ext,".nif")){
+			continue;
+		}
+
+		if(fileNameStem.length() <= floraString.length())
+		{
+			continue;
+		}
+
+		std::string tempFlora = fileNameStem.substr(0, floraStringLength);
+		if(!boost::iequals(tempFlora, floraString)){
+			continue;
+		}
+
+		floraNifFileStem = fileNameStem.erase(0,floraStringLength);
+		originalNifs[floraNifFileStem]=filePath;
+
 	}
+
 	return true;
 }

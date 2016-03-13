@@ -11,6 +11,7 @@
 class DirScanner{
 	std::map<std::string, std::string> originalNifs;
 	std::map<std::string, std::string> pickedNifs;
+	std::map<std::string, std::string> unpickedNifs;
 
 	bool canBeScanned(boost::filesystem::path dirToScan);
 	bool innerScan(boost::filesystem::path dirToScan);
@@ -20,6 +21,7 @@ public:
 
 	std::map<std::string, std::string> getOriginalNifs();
 	std::map<std::string, std::string> getPickedNifs();
+	std::map<std::string, std::string> getUnpickedNifs();
 };
 
 

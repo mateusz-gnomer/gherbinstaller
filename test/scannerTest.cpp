@@ -53,5 +53,21 @@ BOOST_AUTO_TEST_CASE(countingPicked)
 	DirScanner s;
 	s.scan("./test/data");
 	BOOST_CHECK(s.getPickedNifs().size()==5); //5
+}
+
+BOOST_AUTO_TEST_CASE(scanningUnpicked)
+{
+	DirScanner s;
+	s.scan("./test/data");
+	BOOST_CHECK(s.getUnpickedNifs()["mock"]
+								  =="./test/data/Meshes/GHerb/mock_U.nif");
 
 }
+
+BOOST_AUTO_TEST_CASE(countingUnpicked)
+{
+	DirScanner s;
+	s.scan("./test/data");
+	BOOST_CHECK(s.getUnpickedNifs().size()==1); //1
+}
+

@@ -9,6 +9,10 @@ std::map<std::string, std::string> DirScanner::getPickedNifs(){
 	return this->pickedNifs;
 }
 
+std::map<std::string, std::string> DirScanner::getUnpickedNifs(){
+	return this->unpickedNifs;
+}
+
 bool DirScanner::scan(std::string dirToScanName)
 {
 	boost::filesystem::path dirToScan(dirToScanName);
@@ -40,6 +44,7 @@ bool DirScanner::innerScan(boost::filesystem::path dirToScan)
 	std::string fileNameStem = "";
 	std::string floraNifFileStem = "";
 	std::string pickedNifFileStem = "";
+	std::string unpickedNifFileStem = "";
 	std::string filePath = "";
 	std::string ext = "";
 	std::string floraString = "flora_";
@@ -74,11 +79,22 @@ bool DirScanner::innerScan(boost::filesystem::path dirToScan)
 
 		}
 
+		if(fileNameStem[fileNameStem.length()-1]=='U'&&
+				fileNameStem[fileNameStem.length()-2]=='_'&&
+				filePath.find("GHerb") != std::string::npos)
+		{
+			unpickedNifFileStem = fileNameStem.substr(0,fileNameStemLength-2);
+			unpickedNifs[unpickedNifFileStem]=filePath;
+			continue;
+
+		}
+
 		if(fileNameStem.length() >= floraString.length())
 		{
 			std::string tempFlora = fileNameStem.substr(0, floraStringLength);
 
-			if(boost::iequals(tempFlora, floraString))
+			if(boost::iequals(tempFlora, floraString) &&
+					filePath.find("GHerb") == std::string::npos)
 			{
 				floraNifFileStem = fileNameStem.erase(0,floraStringLength);
 				originalNifs[floraNifFileStem]=filePath;
@@ -86,9 +102,6 @@ bool DirScanner::innerScan(boost::filesystem::path dirToScan)
 			}
 
 		}
-
-
-
 	}
 
 	return true;

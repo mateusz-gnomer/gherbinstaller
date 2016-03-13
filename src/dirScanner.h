@@ -10,6 +10,7 @@
 
 class DirScanner{
 	std::map<std::string, std::string> originalNifs;
+	std::map<std::string, std::string> pickedNifs;
 
 	bool canBeScanned(boost::filesystem::path dirToScan);
 	bool innerScan(boost::filesystem::path dirToScan);
@@ -18,6 +19,7 @@ public:
 	bool scan(std::string dirToScan);
 
 	std::map<std::string, std::string> getOriginalNifs();
+	std::map<std::string, std::string> getPickedNifs();
 };
 
 

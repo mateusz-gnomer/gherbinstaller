@@ -24,9 +24,34 @@ BOOST_AUTO_TEST_CASE(dir_is_not_dir)
 }
 
 
-BOOST_AUTO_TEST_CASE(scanning)
+BOOST_AUTO_TEST_CASE(scanningOriginals)
 {
 	DirScanner s;
 	s.scan("./test/data");
-	BOOST_CHECK(s.getOriginalNifs()["no_picked"]=="test/data/Meshes/FLORA_no_picked.nif");
+	BOOST_CHECK(s.getOriginalNifs()["no_picked"]=="./test/data/Meshes/FLORA_no_picked.nif");
+}
+
+BOOST_AUTO_TEST_CASE(countingOriginals)
+{
+	DirScanner s;
+	s.scan("./test/data");
+	BOOST_CHECK(s.getOriginalNifs().size()==6); //6
+
+}
+
+BOOST_AUTO_TEST_CASE(scanningPicked)
+{
+	DirScanner s;
+	s.scan("./test/data");
+	BOOST_CHECK(s.getPickedNifs()["Black_Anther_01"]
+								  =="./test/data/Meshes/GHerb/Black_Anther_01_P.nif");
+
+}
+
+BOOST_AUTO_TEST_CASE(countingPicked)
+{
+	DirScanner s;
+	s.scan("./test/data");
+	BOOST_CHECK(s.getPickedNifs().size()==5); //5
+
 }

@@ -5,6 +5,10 @@ std::map<std::string, std::string> DirScanner::getOriginalNifs(){
 	return this->originalNifs;
 }
 
+std::map<std::string, std::string> DirScanner::getPickedNifs(){
+	return this->pickedNifs;
+}
+
 bool DirScanner::scan(std::string dirToScanName)
 {
 	boost::filesystem::path dirToScan(dirToScanName);
@@ -35,10 +39,12 @@ bool DirScanner::innerScan(boost::filesystem::path dirToScan)
 
 	std::string fileNameStem = "";
 	std::string floraNifFileStem = "";
+	std::string pickedNifFileStem = "";
 	std::string filePath = "";
 	std::string ext = "";
 	std::string floraString = "flora_";
 	unsigned long int floraStringLength = floraString.length();
+	unsigned long int fileNameStemLength = 0;
 
 	while(dirIter != boost::filesystem::directory_iterator())
 	{
@@ -50,24 +56,38 @@ bool DirScanner::innerScan(boost::filesystem::path dirToScan)
 		ext = currentPath.extension().string();
 		fileNameStem = currentPath.stem().string();
 		filePath = currentPath.string();
+		fileNameStemLength = fileNameStem.length();
+
 		++dirIter;
 
 		if(!boost::iequals(ext,".nif")){
 			continue;
 		}
 
-		if(fileNameStem.length() <= floraString.length())
+		if(fileNameStem[fileNameStem.length()-1]=='P'&&
+				fileNameStem[fileNameStem.length()-2]=='_'&&
+				filePath.find("GHerb") != std::string::npos)
 		{
+			pickedNifFileStem = fileNameStem.substr(0,fileNameStemLength-2);
+			pickedNifs[pickedNifFileStem]=filePath;
 			continue;
+
 		}
 
-		std::string tempFlora = fileNameStem.substr(0, floraStringLength);
-		if(!boost::iequals(tempFlora, floraString)){
-			continue;
+		if(fileNameStem.length() >= floraString.length())
+		{
+			std::string tempFlora = fileNameStem.substr(0, floraStringLength);
+
+			if(boost::iequals(tempFlora, floraString))
+			{
+				floraNifFileStem = fileNameStem.erase(0,floraStringLength);
+				originalNifs[floraNifFileStem]=filePath;
+				continue;
+			}
+
 		}
 
-		floraNifFileStem = fileNameStem.erase(0,floraStringLength);
-		originalNifs[floraNifFileStem]=filePath;
+
 
 	}
 

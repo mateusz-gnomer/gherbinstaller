@@ -6,9 +6,10 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <algorithm>
 #include <iterator>
+#include "loggable.hpp"
 //#include <string>
 
-class DirScanner{
+class DirScanner: public Loggable{
 	std::map<std::string, std::string> originalNifs;
 	std::map<std::string, std::string> pickedNifs;
 	std::map<std::string, std::string> unpickedNifs;
@@ -22,6 +23,7 @@ public:
 	std::map<std::string, std::string> getOriginalNifs();
 	std::map<std::string, std::string> getPickedNifs();
 	std::map<std::string, std::string> getUnpickedNifs();
+
 };
 
 

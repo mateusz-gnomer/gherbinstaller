@@ -4,7 +4,7 @@
 
 
 virtual class Loggable{
-	virtual void attach(Logger);
+	virtual void attachLogger(Logger);
 	virtual std::string notify();
 };
 

@@ -1,21 +1,11 @@
 #include <iostream>
 #include <string>
-#include "logger.h"
-#include "dirScanner.h"
-#include "FileMover.h"
 
-template <class T>
-class PointerWrapper{
-private:
-	T *p;
-public:
-	PointerWrapper(T &p){
-		this->p = p;
-	}
-	~PointerWrapper(){
-		delete p;
-	}
-};
+#include "./dirScanner.hpp"
+#include "./FileMover.hpp"
+#include "./logger.hpp"
+
+
 
 int main(int argc, char *args[]){
     if(argc < 3){
@@ -28,24 +18,24 @@ int main(int argc, char *args[]){
     std::string dataDir = new std::string(args[1]);
     std::string emptyNif = new std::string(args[2]);
 
-    Logger log = Logger::getLogger();
-    PointerWrapper wrapLogger(log);
+    Logger log();
 
-    DirScanner *scanner = DirScanner::getDirScanner();
-    PointerWrapper wrapScanner(scanner);
-    scanner->attachLogger(logger);
+    DirScanner scanner();
+    scanner.attachLogger(log);
+    scanner.scan(dataDir);
 
-    scanner->scan(dataDir);
+    DirAnalyzer analyzer();
+    analyzer.setOriginals(scanner.getOriginalNifs());
+    analyzer.setPicked(scanner.getPickedNifs());
+    analyzer.setUnpicked(scanner.getUnpickedNifs());
+    analyzer.setEmpty(emptyNif);
+    analyzer.analyze();
 
-    FileMover *mover = FileMover::GetFileMover();
-    PointerWrapper wrapMover(mover);
-    mover->attachLogger(logger);
+    FileMover mover();
+    mover.attachLogger(logger);
+    mover.move(analyzer.getFilesToMove());
+    mover.copy(analyzer.getFilesToCopy());
 
-    mover->move(scanner->getOriginalNifFiles(),
-    		    scanner->getPickedNifFiles(),
-				scanner->getUnpickedNifFiles(),
-				emptyNif);
-
-    logger->printLog();
+    logger.printLog();
     return 0;
 }

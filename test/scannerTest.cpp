@@ -1,6 +1,7 @@
+
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE scannerTest
-#include "../src/dirScanner.h"
+#include "../src/dirScanner.hpp"
 #include <boost/test/unit_test.hpp>
 #include <map>
 

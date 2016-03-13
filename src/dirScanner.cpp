@@ -1,4 +1,5 @@
-#include "dirScanner.h"
+#include "dirScanner.hpp"
+
 #include <iostream>
 
 std::map<std::string, std::string> DirScanner::getOriginalNifs(){

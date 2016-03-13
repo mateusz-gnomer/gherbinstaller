@@ -1,6 +1,6 @@
 #ifndef LOGGABLE
 #define LOGGABLE
-#include "logger.h"
+#include "logger.hpp"
 
 
 virtual class Loggable{

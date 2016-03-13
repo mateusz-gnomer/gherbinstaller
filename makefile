@@ -21,7 +21,7 @@ SOURCES = $(patsubst %,$(SRC_DIR)$(DIR_SEP)%,$(SOURCE_FILES))
 OBJECT_FILES = $(patsubst %.cpp,%.o,$(SOURCE_FILES))
 OBJECTS = $(patsubst %,$(BIN_DIR)$(DIR_SEP)%,$(OBJECT_FILES))
 
-all: test
+all: $(MAIN_FILE)
 
 test: $(MAIN_FILE)
 	$(TEST_SETUP_SCRIPT)
@@ -64,8 +64,8 @@ $(BIN_DIR)$(DIR_SEP)logger.o: $(SRC_DIR)$(DIR_SEP)logger.cpp
 $(MAIN_FILE): $(OBJECTS)
 	$(CC) $(LFLAGS) $^ -o $@
 
-#$(OBJECTS): $(SOURCES)
-#	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJECTS): $(SOURCES)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 
 clean: 

@@ -3,6 +3,7 @@
 
 #include "dirScanner.hpp"
 #include "fileMover.hpp"
+#include "dirAnalyzer.hpp"
 #include "logger.hpp"
 
 
@@ -15,17 +16,18 @@ int main(int argc, char *args[]){
     			"empty_nif_file_path.nif" << std::endl;
     	return 0;
     }
-    std::string dataDir = new std::string(args[1]);
-    std::string emptyNif = new std::string(args[2]);
+
+    std::string dataDir = args[1];
+    std::string emptyNif = args[2];
 
     Logger log;
 
     DirScanner scanner;
-    scanner.attachLogger(log);
+    scanner.attachLogger(&log);
     scanner.scan(dataDir);
 
     DirAnalyzer analyzer;
-    analyzer.attachLogger(log);
+    analyzer.attachLogger(&log);
     analyzer.setOriginals(scanner.getOriginalNifs());
     analyzer.setPicked(scanner.getPickedNifs());
     analyzer.setUnpicked(scanner.getUnpickedNifs());
@@ -33,7 +35,7 @@ int main(int argc, char *args[]){
     analyzer.analyze();
 
     FileMover mover;
-    mover.attachLogger(log);
+    mover.attachLogger(&log);
     mover.move(analyzer.getFilesToMove());
     mover.copy(analyzer.getFilesToCopy());
 

@@ -1,6 +1,7 @@
 #ifndef FILEMOVER
 #define FILEMOVER
 
+#include <vector>
 #include "loggable.hpp"
 
 class FileMover: public Loggable{
@@ -11,7 +12,7 @@ class FileMover: public Loggable{
 		void move(std::vector<std::pair<std::string, std::string>>);
 		void copy(std::vector<std::pair<std::string, std::string>>);
 
-		void attachLogger(Logger&);
+		void attachLogger(Logger*);
 		virtual ~FileMover(){}
 
 };

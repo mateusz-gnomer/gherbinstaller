@@ -25,7 +25,7 @@ public:
 	std::map<std::string, std::string> getOriginalNifs();
 	std::map<std::string, std::string> getPickedNifs();
 	std::map<std::string, std::string> getUnpickedNifs();
-	void attachLogger(Logger &logger);
+	void attachLogger(Logger *logger);
 
 	virtual ~DirScanner(){}
 

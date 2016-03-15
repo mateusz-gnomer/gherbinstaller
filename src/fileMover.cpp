@@ -9,7 +9,7 @@ void FileMover::copy(std::vector<std::pair<std::string, std::string>>)
 
 }
 
-void FileMover::attachLogger(Logger& l)
+void FileMover::attachLogger(Logger *l)
 {
 	this->logger = l;
 }

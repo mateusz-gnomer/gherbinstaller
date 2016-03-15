@@ -6,7 +6,7 @@
 class Loggable
 {
 	public:
-		virtual void attachLogger(Logger&) = 0;
+		virtual void attachLogger(Logger*) = 0;
 };
 
 #endif

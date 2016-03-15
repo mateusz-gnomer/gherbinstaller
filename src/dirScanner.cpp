@@ -109,7 +109,7 @@ bool DirScanner::innerScan(boost::filesystem::path dirToScan)
 }
 
 
-void DirScanner::attachLogger(Logger &l)
+void DirScanner::attachLogger(Logger *l)
 {
 	this->logger = l;
 }

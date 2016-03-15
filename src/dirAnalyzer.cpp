@@ -35,7 +35,7 @@ std::vector<std::pair<std::string, std::string>> DirAnalyzer::getFilesToCopy()
 	return this->filesToCopy;
 }
 
-void DirAnalyzer::attachLogger(Logger &l)
+void DirAnalyzer::attachLogger(Logger *l)
 {
 	this->logger = l;
 }

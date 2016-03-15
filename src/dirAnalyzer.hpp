@@ -30,7 +30,7 @@ class DirAnalyzer: public Loggable{
 
 		std::vector<std::pair<std::string, std::string>> getFilesToMove();
 		std::vector<std::pair<std::string, std::string>> getFilesToCopy();
-		void attachLogger(Logger&);
+		void attachLogger(Logger*);
 		virtual ~DirAnalyzer(){}
 
 };

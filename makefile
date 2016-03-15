@@ -5,7 +5,7 @@ TEST_DIR=test
 
 BOOST_LIBS=-lboost_system -lboost_date_time -lboost_thread -lboost_unit_test_framework -lboost_filesystem
 
-CFLAGS=-std=c++11
+CFLAGS=-std=c++11 
 
 DIR_SEP=/
 TEST_FILE=$(TEST_DIR)$(DIR_SEP)target_dir_tree_and_content
@@ -15,13 +15,14 @@ RESULT_FILE=$(TEST_DIR)$(DIR_SEP)result
 MAIN_FILE=$(BIN_DIR)$(DIR_SEP)ghinstall
 MAIN_ARGS=$(TEST_DIR)$(DIR_SEP)data $(TEST_DIR)$(DIR_SEP)empty.nif
 
-SOURCE_FILES = ghinstall.cpp logger.cpp
+SOURCE_FILES = ghinstall.cpp logger.cpp dirAnalyzer.cpp dirScanner.cpp fileMover.cpp
 SOURCES = $(patsubst %,$(SRC_DIR)$(DIR_SEP)%,$(SOURCE_FILES))
 
 OBJECT_FILES = $(patsubst %.cpp,%.o,$(SOURCE_FILES))
 OBJECTS = $(patsubst %,$(BIN_DIR)$(DIR_SEP)%,$(OBJECT_FILES))
 
 all: $(MAIN_FILE)
+	
 
 test: $(MAIN_FILE)
 	$(TEST_SETUP_SCRIPT)
@@ -45,9 +46,6 @@ $(BIN_DIR)$(DIR_SEP)scannerTest: $(BIN_DIR)$(DIR_SEP)scannerTest.o $(BIN_DIR)$(D
 	
 $(BIN_DIR)$(DIR_SEP)scannerTest.o: $(TEST_DIR)$(DIR_SEP)scannerTest.cpp
 	$(CC) $(CFLAGS) -I.$(DIR_SEP)$(SRC_DIR)$(DIR_SEP) -c $< -o $@
-	
-$(BIN_DIR)$(DIR_SEP)dirScanner.o: $(SRC_DIR)$(DIR_SEP)dirScanner.cpp
-	$(CC) $(CFLAGS) -I.$(DIR_SEP)$(SRC_DIR)$(DIR_SEP) -c $< -o $@
 
 loggerTest: $(BIN_DIR)$(DIR_SEP)loggerTest
 	$(BIN_DIR)$(DIR_SEP)loggerTest
@@ -57,16 +55,16 @@ $(BIN_DIR)$(DIR_SEP)loggerTest: $(BIN_DIR)$(DIR_SEP)loggerTest.o $(BIN_DIR)$(DIR
 	
 $(BIN_DIR)$(DIR_SEP)loggerTest.o: $(TEST_DIR)$(DIR_SEP)loggerTest.cpp
 	$(CC) $(CFLAGS) -I.$(DIR_SEP)$(SRC_DIR)$(DIR_SEP) -c $< -o $@
-	
-$(BIN_DIR)$(DIR_SEP)logger.o: $(SRC_DIR)$(DIR_SEP)logger.cpp
-	$(CC) $(CFLAGS) -I.$(DIR_SEP)$(SRC_DIR)$(DIR_SEP) -c $< -o $@
 
 $(MAIN_FILE): $(OBJECTS)
-	$(CC) $(LFLAGS) $^ -o $@
+	$(CC) $(LFLAGS) $^ -o $@ $(BOOST_LIBS)
 
-$(OBJECTS): $(SOURCES)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(BIN_DIR)$(DIR_SEP)%.o: $(SRC_DIR)$(DIR_SEP)%.cpp
+	$(CC) $(CFLAGS) -I.$(DIR_SEP)$(SRC_DIR)$(DIR_SEP) -c $< -o $@
 
+print:
+	echo $(SOURCES)
+	echo $(OBJECTS)
 
 clean: 
 	rm -r -f bin/*

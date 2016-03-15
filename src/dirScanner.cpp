@@ -107,3 +107,14 @@ bool DirScanner::innerScan(boost::filesystem::path dirToScan)
 
 	return true;
 }
+
+
+void DirScanner::attachLogger(Logger &l)
+{
+	this->logger = l;
+}
+
+void DirScanner::notify(std::string str)
+{
+	this->logger->addToLog(str);
+}

@@ -13,6 +13,13 @@
 //#include <string>
 
 class DirAnalyzer: public Loggable{
+	private:
+		Logger *logger;
+		void notify(std::string str);
+
+		std::vector<std::pair<std::string, std::string>> filesToMove;
+		std::vector<std::pair<std::string, std::string>> filesToCopy;
+
 
 	public:
 		void setOriginals(std::map<std::string, std::string>);
@@ -23,6 +30,9 @@ class DirAnalyzer: public Loggable{
 
 		std::vector<std::pair<std::string, std::string>> getFilesToMove();
 		std::vector<std::pair<std::string, std::string>> getFilesToCopy();
+		void attachLogger(Logger&);
+		virtual ~DirAnalyzer(){}
+
 };
 
 

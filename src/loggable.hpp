@@ -3,9 +3,10 @@
 #include "logger.hpp"
 
 
-virtual class Loggable{
-	virtual void attachLogger(Logger);
-	virtual std::string notify();
+class Loggable
+{
+	public:
+		virtual void attachLogger(Logger&) = 0;
 };
 
 #endif

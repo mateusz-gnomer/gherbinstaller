@@ -26,12 +26,12 @@ int main(int argc, char *args[]){
     scanner.attachLogger(&log);
     scanner.scan(dataDir);
 
-    DirAnalyzer analyzer;
-    analyzer.attachLogger(&log);
-    analyzer.setOriginals(scanner.getOriginalNifs());
-    analyzer.setPicked(scanner.getPickedNifs());
-    analyzer.setUnpicked(scanner.getUnpickedNifs());
-    analyzer.setEmpty(emptyNif);
+    DirAnalyzer analyzer(scanner.getOriginalNifs(),
+    		scanner.getPickedNifs(),
+			scanner.getUnpickedNifs(),
+			emptyNif,
+			&log);
+
     analyzer.analyze();
 
     FileMover mover;

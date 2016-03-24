@@ -34,6 +34,15 @@ test: $(MAIN_FILE)
 #ghinstall is supplied with morrowind data dir and empty nif file
 #diff -i ignore case -b ignore whitespaces
 
+analyzerTest: $(BIN_DIR)$(DIR_SEP)analyzerTest
+	$(BIN_DIR)$(DIR_SEP)analyzerTest
+
+$(BIN_DIR)$(DIR_SEP)analyzerTest: $(BIN_DIR)$(DIR_SEP)analyzerTest.o $(BIN_DIR)$(DIR_SEP)dirAnalyzer.o $(BIN_DIR)$(DIR_SEP)logger.o
+	$(CC) $(LFLAGS) $^ -o $@ $(BOOST_LIBS)
+	
+$(BIN_DIR)$(DIR_SEP)analyzerTest.o: $(TEST_DIR)$(DIR_SEP)analyzerTest.cpp
+	$(CC) $(CFLAGS) -I.$(DIR_SEP)$(SRC_DIR)$(DIR_SEP) -c $< -o $@
+
 scannerTest: $(BIN_DIR)$(DIR_SEP)scannerTest
 	$(TEST_SETUP_SCRIPT)
 	touch $(TEST_DIR)$(DIR_SEP)some_file
